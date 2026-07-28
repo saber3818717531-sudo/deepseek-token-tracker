@@ -20,7 +20,7 @@ const DEFAULT_SETTINGS = {
     showNotification: false,
     showConsole: true,
     apiUrl: 'https://api.deepseek.com',
-    verbose: true,            // ★ 打印诊断日志（排查时务必开）
+    verbose: false,            // ★ 打印诊断日志（排查时务必开）
     totalCost: 0, totalInputTokens: 0, totalOutputTokens: 0,
     totalCacheHit: 0, totalCacheMiss: 0, requestCount: 0,
 };
