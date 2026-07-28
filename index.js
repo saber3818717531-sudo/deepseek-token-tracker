@@ -3,9 +3,12 @@
 //  功能：拦截 DeepSeek API 响应，统计 token 用量与消费
 // ============================================================
 
-import { eventSource, event_types } from '../../../script.js';
-import { extension_settings, getContext } from '../../extensions.js';
-import { saveSettingsDebounced } from '../../../script.js';
+import {
+    eventSource,
+    event_types,
+    saveSettingsDebounced,
+} from '../../../../script.js';
+import { extension_settings, getContext } from '../../../extensions.js';
 
 // -------------------- 常量 --------------------
 const EXTENSION_NAME = 'deepseek-token-tracker';
