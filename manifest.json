@@ -1,0 +1,12 @@
+{
+    "display_name": "DeepSeek Token Tracker",
+    "loading_order": 100,
+    "requires": [],
+    "optional": [],
+    "js": "index.js",
+    "css": "style.css",
+    "author": "saber3818717531-sudo",
+    "version": "1.0.1",
+    "homePage": "https://github.com/saber3818717531-sudo/deepseek-token-tracker",
+    "auto_update": true
+}
