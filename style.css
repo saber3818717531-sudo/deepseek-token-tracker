@@ -1,3 +1,31 @@
+/* ===== 设置面板里的统计行 ===== */
+.ds-stats-table {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 0.9em;
+}
+.ds-stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 2px 4px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.ds-stat-row .ds-green { color: #66bb6a; }
+.ds-stat-row .ds-red   { color: #ef5350; }
+
+.ds-help-text {
+    margin-top: 10px;
+    font-size: 0.75em;
+    opacity: 0.6;
+    line-height: 1.5;
+}
+.ds-help-text code {
+    background: rgba(255,255,255,0.08);
+    padding: 0 4px;
+    border-radius: 3px;
+}
+
 /* ===== 消息气泡内的统计标签 ===== */
 .ds-token-stats {
     display: flex;
@@ -11,40 +39,10 @@
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 6px;
-    user-select: text;
 }
-
-.ds-token-stats .ds-stat-title {
-    width: 100%;
-    font-weight: bold;
-    font-size: 0.95em;
-    opacity: 0.85;
-}
-
-.ds-token-stats b {
-    color: var(--SmartThemeEmColor, #fff);
-}
-
-.ds-token-stats .ds-hit b {
-    color: #66bb6a;
-}
-
-.ds-token-stats .ds-miss b {
-    color: #ef5350;
-}
-
-.ds-token-stats .ds-cost b {
-    color: #ffa726;
-}
-
-.ds-token-stats .ds-total {
-    width: 100%;
-    opacity: 0.7;
-    font-size: 0.92em;
-}
-
-/* ===== 设置面板表格 ===== */
-.ds-stats-table td {
-    padding: 2px 4px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-}
+.ds-token-stats .ds-stat-title { width: 100%; font-weight: bold; opacity: 0.85; }
+.ds-token-stats b { color: var(--SmartThemeEmColor, #fff); }
+.ds-token-stats .ds-hit b  { color: #66bb6a; }
+.ds-token-stats .ds-miss b { color: #ef5350; }
+.ds-token-stats .ds-cost b { color: #ffa726; }
+.ds-token-stats .ds-total  { width: 100%; opacity: 0.7; }
