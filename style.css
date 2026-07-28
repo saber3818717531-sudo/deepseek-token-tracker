@@ -1,0 +1,50 @@
+/* ===== 消息气泡内的统计标签 ===== */
+.ds-token-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    margin-top: 8px;
+    padding: 6px 10px;
+    font-size: 0.78em;
+    line-height: 1.6;
+    color: var(--SmartThemeBodyColor, #ccc);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    user-select: text;
+}
+
+.ds-token-stats .ds-stat-title {
+    width: 100%;
+    font-weight: bold;
+    font-size: 0.95em;
+    opacity: 0.85;
+}
+
+.ds-token-stats b {
+    color: var(--SmartThemeEmColor, #fff);
+}
+
+.ds-token-stats .ds-hit b {
+    color: #66bb6a;
+}
+
+.ds-token-stats .ds-miss b {
+    color: #ef5350;
+}
+
+.ds-token-stats .ds-cost b {
+    color: #ffa726;
+}
+
+.ds-token-stats .ds-total {
+    width: 100%;
+    opacity: 0.7;
+    font-size: 0.92em;
+}
+
+/* ===== 设置面板表格 ===== */
+.ds-stats-table td {
+    padding: 2px 4px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}

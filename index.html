@@ -1,0 +1,60 @@
+<div id="deepseek-token-tracker-settings" class="range-block">
+    <div class="range-block-title">
+        <strong>🪙 DeepSeek Token 消费追踪</strong>
+    </div>
+    <div class="range-block-counter">
+        <!-- 开关 -->
+        <label class="checkbox_label">
+            <input type="checkbox" id="ds_tracker_enabled" />
+            <span>启用插件</span>
+        </label>
+        <label class="checkbox_label">
+            <input type="checkbox" id="ds_tracker_show_chat" />
+            <span>在消息下方显示统计</span>
+        </label>
+        <label class="checkbox_label">
+            <input type="checkbox" id="ds_tracker_show_notif" />
+            <span>弹窗通知 (toastr)</span>
+        </label>
+        <label class="checkbox_label">
+            <input type="checkbox" id="ds_tracker_show_console" />
+            <span>浏览器控制台输出</span>
+        </label>
+
+        <!-- API 地址 -->
+        <div class="range-block-title" style="margin-top:8px;">
+            <small>API 地址匹配（URL 包含此字符串时触发）</small>
+        </div>
+        <input type="text" id="ds_tracker_api_url"
+               class="text_pole"
+               placeholder="https://api.deepseek.com"
+               style="width:100%;margin-bottom:8px;" />
+
+        <!-- 累计统计 -->
+        <div class="range-block-title" style="margin-top:8px;">
+            <strong>📈 累计统计</strong>
+        </div>
+        <table class="ds-stats-table" style="width:100%;font-size:0.85em;">
+            <tr><td>累计消费</td><td id="ds_stat_total_cost" style="text-align:right;font-weight:bold;">¥0</td></tr>
+            <tr><td>请求次数</td><td id="ds_stat_requests" style="text-align:right;">0</td></tr>
+            <tr><td>总输入 tokens</td><td id="ds_stat_input" style="text-align:right;">0</td></tr>
+            <tr><td>总输出 tokens</td><td id="ds_stat_output" style="text-align:right;">0</td></tr>
+            <tr><td>缓存命中</td><td id="ds_stat_cache_hit" style="text-align:right;color:#66bb6a;">0</td></tr>
+            <tr><td>缓存未命中</td><td id="ds_stat_cache_miss" style="text-align:right;color:#ef5350;">0</td></tr>
+        </table>
+
+        <button id="ds_tracker_reset_btn" class="menu_button" style="margin-top:8px;width:100%;">
+            🗑️ 重置累计统计
+        </button>
+
+        <!-- 计费说明 -->
+        <div style="margin-top:10px;font-size:0.75em;opacity:0.6;line-height:1.5;">
+            计费标准：<br/>
+            · 输入（缓存命中）：¥0.02 / 百万 tokens<br/>
+            · 输入（缓存未命中）：¥1.00 / 百万 tokens<br/>
+            · 输出：¥2.00 / 百万 tokens<br/>
+            <br/>
+            斜杠命令：<code>/token</code> 查看最近统计 · <code>/tokenreset</code> 重置
+        </div>
+    </div>
+</div>
