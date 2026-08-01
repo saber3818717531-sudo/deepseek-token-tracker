@@ -11,9 +11,3 @@
 .ds-token-stats .ds-miss b { color: #f44336; }
 .ds-token-stats .ds-cost b { color: #ffd54f; }
 .ds-token-stats .ds-total  { color: #9898b8; }
-/* ── 确诊用：让浮动窗无处可藏（确认正常后可删掉这段）── */
-#tcm-panel {
-    z-index: 2147483647 !important;
-    outline: 3px solid #ff1744 !important;
-    box-shadow: 0 0 0 9999px rgba(0,0,0,0) !important;
-}
