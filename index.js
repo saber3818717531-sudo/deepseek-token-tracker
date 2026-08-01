@@ -328,19 +328,50 @@ function render() {
 }
 function drawTrend() {
     const c = $('#tcm-trend-bars'); if (!c || !cfg.showTrend) return;
-    const bars = c.querySelectorAll('.tcm-trend-bar'), items = stats.history.slice(0, bars.length).reverse();
+    const bars = c.querySelectorAll('.tcm-trend-bar');
+    const items = stats.history.slice(0, bars.length).reverse();   // 旧 → 新
+    const totals = items.map(it => it ? (it.cacheHit + it.cacheMiss + it.completion) : 0);
+    const maxTotal = Math.max(1, ...totals);
     bars.forEach((bar, i) => {
         const it = items[i];
+        const stack = bar.querySelector('.tcm-trend-stack');
         if (it) {
-            const m = Math.max(it.prompt, it.completion, 1);
-            bar.querySelector('.tcm-trend-p').style.height = (it.prompt / m * 100) + '%';
-            bar.querySelector('.tcm-trend-c').style.height = (it.completion / m * 100) + '%';
-            bar.title = `#${stats.requests - items.length + i + 1}: 入${fmt(it.prompt)} 出${fmt(it.completion)} @${it.tps}tok/秒`;
-            bar.style.opacity = '1';
+            const hit = it.cacheHit, miss = it.cacheMiss, out = it.completion;
+            stack.style.height = (totals[i] / maxTotal * 100) + '%';   // 柱高 = 该次总用量占比
+            stack.style.opacity = '1';
+            stack.querySelector('.tcm-trend-hit').style.flex  = hit;   // 三段按值堆叠
+            stack.querySelector('.tcm-trend-miss').style.flex = miss;
+            stack.querySelector('.tcm-trend-out').style.flex  = out;
+            bar.title = `#${stats.requests - items.length + i + 1}\n命中 ${fmt(hit)} · 未命中 ${fmt(miss)} · 输出 ${fmt(out)}\n命中率 ${it.effScore}% · ${it.tps} tok/秒`;
         } else {
-            bar.querySelector('.tcm-trend-p').style.height = '0%'; bar.querySelector('.tcm-trend-c').style.height = '0%'; bar.style.opacity = '0.4';
+            stack.style.height = '0%'; stack.style.opacity = '0.35'; bar.title = '';
         }
     });
+    drawTrendLine(items);
+}
+function drawTrendLine(items) {
+    const poly = $('#tcm-trend-poly'), area = $('#tcm-trend-area'), rateEl = $('#tcm-trend-rate');
+    if (!poly) return;
+    const H = 32;
+    const valid = items.map((it, i) => it ? { v: it.effScore, i } : null).filter(Boolean);
+    let polyStr = '', areaStr = '';
+    if (valid.length) {
+        const coords = valid.map(o => [
+            (o.i / (MAX_HISTORY - 1)) * 100,                 // x 按槽位 → 与柱子对齐
+            H - (o.v / 100) * (H - 2) - 1,                   // y: 0%→底, 100%→顶
+        ]);
+        polyStr = coords.map(c => c[0].toFixed(2) + ',' + c[1].toFixed(2)).join(' ');
+        areaStr = `${coords[0][0].toFixed(2)},${H} ` + polyStr + ` ${coords[coords.length - 1][0].toFixed(2)},${H}`;
+    }
+    poly.setAttribute('points', polyStr);
+    area.setAttribute('points', areaStr);
+    const last = stats.history[0];
+    if (rateEl) {
+        if (last && (last.cacheHit + last.cacheMiss) > 0) {
+            rateEl.textContent = last.effScore + '%';
+            rateEl.style.color = effLabel(last.effScore).color;     // 绿/黄/红 随好坏变
+        } else rateEl.textContent = '-';
+    }
 }
 
 function insertStatsIntoChat(u, cost) {
