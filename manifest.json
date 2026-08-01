@@ -1,0 +1,13 @@
+{
+    "display_name": "🐋 Token & Cache 监控 (融合版)",
+    "loading_order": 100,
+    "requires": [],
+    "optional": [],
+    "js": "index.js",
+    "css": "style.css",
+    "author": "rskzayton + fusion",
+    "version": "5.0.0-fusion",
+    "homePage": "https://github.com/rskzayton/ST-TokenCacheMonitor",
+    "auto_update": false,
+    "description": "融合版：保留原版浮动面板/趋势图/效率评分/多模型/每对话存储，换用 fetch+XHR 双拦截抓取引擎（兼容自定义端点直连与手机 TauriTavern），人民币计价，并在每条回复下方挂账单。"
+}
