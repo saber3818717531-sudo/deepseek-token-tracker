@@ -41,16 +41,38 @@
 .tcm-eff-bar-fill{ height:100%; width:0%; background:#4caf50; transition:width .3s,background .3s; }
 .tcm-trend-container{ margin-top:4px; }
 .tcm-trend-bars{ display:flex; align-items:flex-end; gap:2px; height:42px; }
+/* —— 趋势：命中率折线 —— */
+.tcm-trend-line{
+  position:relative; height:38px; margin:2px 0 6px;
+  background:linear-gradient(180deg, rgba(102,217,160,.06), rgba(102,217,160,0));
+  border:1px solid #2a2a40; border-radius:6px; overflow:hidden;
+}
+.tcm-trend-line svg{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+.tcm-trend-ref { stroke:#3a3a5e; stroke-width:1; stroke-dasharray:2 2; vector-effect:non-scaling-stroke; }
+.tcm-trend-area{ fill:rgba(102,217,160,.16); stroke:none; }
+.tcm-trend-poly{ fill:none; stroke:#66d9a0; stroke-width:1.5; stroke-linejoin:round; stroke-linecap:round;
+  vector-effect:non-scaling-stroke; filter:drop-shadow(0 0 2px rgba(102,217,160,.55)); transition:all .3s; }
+.tcm-trend-rate{
+  position:absolute; top:3px; right:6px; font-size:10px; color:#9aa0b8;
+  background:rgba(20,20,32,.65); padding:1px 6px; border-radius:4px;
+}
+.tcm-trend-rate b{ font-size:12px; }
+/* —— 趋势：三色堆叠柱（对齐 DeepSeek 官方配色） —— */
 .tcm-trend-bar{
   flex:1; display:flex; flex-direction:column; justify-content:flex-end;
-  height:100%; background:#22223a; border-radius:2px; overflow:hidden; opacity:.4;
+  height:100%; background:#1c1c30; border-radius:2px; overflow:hidden; opacity:.35; transition:opacity .2s;
 }
-.tcm-trend-p{ background:#5c6bc0; width:100%; }
-.tcm-trend-c{ background:#26a69a; width:100%; }
-.tcm-trend-legend{ display:flex; gap:12px; font-size:10px; color:#8888a8; margin-top:3px; }
+.tcm-trend-bar:hover{ outline:1px solid #4a4a6e; opacity:1; }
+.tcm-trend-stack{ width:100%; display:flex; flex-direction:column; height:0%; transition:height .3s ease; }
+.tcm-trend-hit ,.tcm-trend-miss,.tcm-trend-out{ width:100%; min-height:0; }
+.tcm-trend-hit { background:#a9d6f0; }   /* 命中缓存  浅蓝 */
+.tcm-trend-miss{ background:#4ea8e6; }   /* 未命中缓存 中蓝 */
+.tcm-trend-out { background:#1677ff; }   /* 输出      深蓝 */
+/* —— 趋势：图例 —— */
+.tcm-trend-legend{ display:flex; gap:10px; font-size:10px; color:#8888a8; margin-top:4px; flex-wrap:wrap; }
 .tcm-trend-legend span{ display:flex; align-items:center; gap:4px; }
-.tcm-legend-p,.tcm-legend-c{ width:8px; height:8px; border-radius:2px; display:inline-block; }
-.tcm-legend-p{ background:#5c6bc0; } .tcm-legend-c{ background:#26a69a; }
+.tcm-legend-hit,.tcm-legend-miss,.tcm-legend-out{ width:8px; height:8px; border-radius:2px; display:inline-block; }
+.tcm-legend-hit{ background:#a9d6f0; } .tcm-legend-miss{ background:#4ea8e6; } .tcm-legend-out{ background:#1677ff; }
 
 /* —— 设置弹窗 —— */
 .tcm-overlay{
