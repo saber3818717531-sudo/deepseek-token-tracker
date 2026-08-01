@@ -15,7 +15,11 @@ import {
 import {
     extension_settings as extensionSettings, getContext,
 } from '../../../extensions.js';
-
+function init() {
+    try { (window.toastr || {}).success?.('🐋 融合版 init 已执行'); } catch {}
+    console.log('%c[TCM🐋] init 执行', 'color:#ff1744;font-weight:bold');
+    loadCfg();
+    // ……后面原样不动
 // ═══════════════════════════════════════════════════════════════════════
 // Constants
 // ═══════════════════════════════════════════════════════════════════════
