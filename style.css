@@ -1,13 +1,96 @@
-/* ── 融合新增：消息下方账单条 ─────────────────────────────── */
-.ds-token-stats {
-    display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center;
-    margin: 8px 0 2px; padding: 8px 12px;
-    background: rgba(26,26,46,0.6); border: 1px solid #3a3a5e; border-radius: 8px;
-    font-size: 12px; color: #c8c8d0;
+/* ===== 🐋 Token & Cache Monitor — 完整样式（整文件覆盖，勿合并/勿保留旧内容） ===== */
+
+/* —— 浮动面板（关键：position:fixed，否则会被聊天层盖住） —— */
+#tcm-panel{
+  position:fixed; right:12px; bottom:90px; z-index:99999;
+  width:264px; max-width:calc(100vw - 16px);
+  background:rgba(20,20,32,0.96); color:#d8d8e6;
+  border:1px solid #3a3a5e; border-radius:10px;
+  box-shadow:0 6px 24px rgba(0,0,0,0.5);
+  font:12px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  user-select:none; -webkit-user-select:none; backdrop-filter:blur(6px);
 }
-.ds-token-stats .ds-stat-title { font-weight: 700; color: #e0e0f0; margin-right: 4px; }
-.ds-token-stats b { color: #d0d0f0; }
-.ds-token-stats .ds-hit b  { color: #4caf50; }
-.ds-token-stats .ds-miss b { color: #f44336; }
-.ds-token-stats .ds-cost b { color: #ffd54f; }
-.ds-token-stats .ds-total  { color: #9898b8; }
+#tcm-panel.tcm-collapsed{ width:auto; }
+.tcm-head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:7px 10px; cursor:grab; touch-action:none;
+  background:linear-gradient(90deg,#23233c,#1a1a2e);
+  border-radius:10px 10px 0 0; border-bottom:1px solid #3a3a5e;
+}
+.tcm-collapsed .tcm-head{ border-radius:10px; border-bottom:none; }
+.tcm-head-left{ display:flex; align-items:center; gap:6px; font-weight:700; }
+.tcm-dot{ font-size:10px; }
+.tcm-title{ font-size:12px; }
+.tcm-head-btns{ display:flex; gap:2px; }
+.tcm-btn{
+  background:transparent; border:none; color:#b0b0c8; cursor:pointer;
+  width:22px; height:22px; border-radius:5px; font-size:12px; line-height:1;
+}
+.tcm-btn:hover{ background:#33334d; color:#fff; }
+.tcm-body{ padding:6px 10px 10px; max-height:70vh; overflow-y:auto; }
+.tcm-section{ margin-top:8px; }
+.tcm-section:first-child{ margin-top:2px; }
+.tcm-section-title{ font-size:10px; color:#8888a8; text-transform:uppercase; letter-spacing:.5px; margin-bottom:3px; }
+.tcm-row{ display:flex; justify-content:space-between; padding:2px 0; font-size:12px; }
+.tcm-row span:first-child{ color:#a0a0bc; }
+.tcm-row span:last-child{ color:#e8e8f4; font-variant-numeric:tabular-nums; }
+.tcm-green{ color:#4caf50 !important; }
+.tcm-red{ color:#f44336 !important; }
+.tcm-cost-row span:last-child{ color:#ffd54f !important; font-weight:700; }
+.tcm-eff-bar{ height:6px; background:#2a2a40; border-radius:3px; overflow:hidden; margin-top:3px; }
+.tcm-eff-bar-fill{ height:100%; width:0%; background:#4caf50; transition:width .3s,background .3s; }
+.tcm-trend-container{ margin-top:4px; }
+.tcm-trend-bars{ display:flex; align-items:flex-end; gap:2px; height:42px; }
+.tcm-trend-bar{
+  flex:1; display:flex; flex-direction:column; justify-content:flex-end;
+  height:100%; background:#22223a; border-radius:2px; overflow:hidden; opacity:.4;
+}
+.tcm-trend-p{ background:#5c6bc0; width:100%; }
+.tcm-trend-c{ background:#26a69a; width:100%; }
+.tcm-trend-legend{ display:flex; gap:12px; font-size:10px; color:#8888a8; margin-top:3px; }
+.tcm-trend-legend span{ display:flex; align-items:center; gap:4px; }
+.tcm-legend-p,.tcm-legend-c{ width:8px; height:8px; border-radius:2px; display:inline-block; }
+.tcm-legend-p{ background:#5c6bc0; } .tcm-legend-c{ background:#26a69a; }
+
+/* —— 设置弹窗 —— */
+.tcm-overlay{
+  position:fixed; inset:0; z-index:100000; background:rgba(0,0,0,0.6);
+  display:flex; align-items:center; justify-content:center; padding:16px;
+}
+.tcm-settings-box{
+  background:#1c1c2e; border:1px solid #3a3a5e; border-radius:12px;
+  padding:16px 18px; width:340px; max-width:100%; max-height:85vh; overflow-y:auto;
+  color:#d8d8e6; font:13px/1.6 system-ui,sans-serif;
+}
+.tcm-settings-box h3{ margin:0 0 12px; font-size:15px; }
+.tcm-settings-box label{ display:flex; align-items:center; gap:8px; margin:8px 0; cursor:pointer; }
+.tcm-settings-box input[type=text],.tcm-settings-box input[type=number],.tcm-settings-box select{
+  background:#12121f; border:1px solid #3a3a5e; color:#e8e8f4; border-radius:6px; padding:4px 8px;
+}
+.tcm-settings-actions{ display:flex; gap:8px; justify-content:flex-end; margin-top:14px; }
+.tcm-settings-actions button{
+  background:#33334d; border:1px solid #4a4a6e; color:#e8e8f4; border-radius:6px; padding:6px 14px; cursor:pointer;
+}
+.tcm-settings-actions button#tcm-set-apply{ background:#3a5ca8; border-color:#4a6cb8; }
+
+/* —— 消息下方账单 —— */
+.ds-token-stats{
+  display:flex; flex-wrap:wrap; gap:6px 14px; align-items:center;
+  margin:8px 0 2px; padding:8px 12px;
+  background:rgba(26,26,46,0.6); border:1px solid #3a3a5e; border-radius:8px;
+  font-size:12px; color:#c8c8d0;
+}
+.ds-token-stats .ds-stat-title{ font-weight:700; color:#e0e0f0; margin-right:4px; }
+.ds-token-stats b{ color:#d0d0f0; }
+.ds-token-stats .ds-hit b{ color:#4caf50; }
+.ds-token-stats .ds-miss b{ color:#f44336; }
+.ds-token-stats .ds-cost b{ color:#ffd54f; }
+.ds-token-stats .ds-total{ color:#9898b8; }
+
+/* —— 扩展设置区条目（inline-drawer 内部） —— */
+.tcm-ext-grid{ display:grid; grid-template-columns:auto 1fr; gap:3px 12px; margin:8px 0; font-size:12px; }
+.tcm-ext-grid span:nth-child(odd){ color:#9898b8; }
+.tcm-ext-grid span:nth-child(even){ text-align:right; font-variant-numeric:tabular-nums; }
+.tcm-ext-btns{ display:flex; gap:8px; margin:8px 0; flex-wrap:wrap; }
+.tcm-ext-note{ font-size:11px; color:#8888a8; margin:6px 0; line-height:1.6; }
+.tcm-ext-note code{ background:#12121f; padding:1px 5px; border-radius:4px; color:#c8c8e0; }
