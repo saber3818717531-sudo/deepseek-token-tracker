@@ -1,12 +1,13 @@
 {
-    "display_name": "DeepSeek Token Tracker",
+    "display_name": "Token & Cache Monitor",
     "loading_order": 100,
     "requires": [],
     "optional": [],
     "js": "index.js",
     "css": "style.css",
-    "author": "saber3818717531-sudo",
-    "version": "1.0.1",
-    "homePage": "https://github.com/saber3818717531-sudo/deepseek-token-tracker",
-    "auto_update": true
+    "author": "CodeWhale",
+    "version": "1.1.1",
+    "homePage": "",
+    "auto_update": false,
+    "description": "Multi-method token stats, DeepSeek cache hit/miss/write tracking, trend chart, and JSON/CSV export with localStorage persistence."
 }
