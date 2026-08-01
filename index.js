@@ -390,10 +390,18 @@ const PANEL_HTML = /* html */ `
     <div class="tcm-section" id="tcm-cost-section"${cfg.showCost ? '' : ' style="display:none"'}><div class="tcm-section-title">▼ 费用(¥) · <span id="tcm-model">-</span></div>
       <div class="tcm-row tcm-cost-row"><span>本次会话</span><span id="tcm-cost">¥0.0000</span></div>
       <div class="tcm-row tcm-cost-row"><span>预计 +50条</span><span id="tcm-cost-proj">¥0.0000</span></div></div>
-    <div class="tcm-section" id="tcm-trend-section"${cfg.showTrend ? '' : ' style="display:none"'}><div class="tcm-section-title">▼ 趋势 (最近 ${MAX_HISTORY} 次)</div>
+    <div class="tcm-section" id="tcm-trend-section"${cfg.showTrend ? '' : ' style="display:none"'}><div class="tcm-section-title">▼ 趋势 · 命中率折线 + 三色用量 (最近 ${MAX_HISTORY} 次)</div>
+      <div class="tcm-trend-line">
+        <svg id="tcm-trend-line-svg" viewBox="0 0 100 32" preserveAspectRatio="none">
+          <line x1="0" y1="16" x2="100" y2="16" class="tcm-trend-ref"></line>
+          <polygon id="tcm-trend-area" class="tcm-trend-area" points=""></polygon>
+          <polyline id="tcm-trend-poly" class="tcm-trend-poly" points=""></polyline>
+        </svg>
+        <span class="tcm-trend-rate">命中率 <b id="tcm-trend-rate">-</b></span>
+      </div>
       <div class="tcm-trend-container"><div class="tcm-trend-bars" id="tcm-trend-bars">
-        ${Array.from({ length: MAX_HISTORY }, () => `<div class="tcm-trend-bar"><div class="tcm-trend-p" style="height:0%"></div><div class="tcm-trend-c" style="height:0%"></div></div>`).join('')}
-      </div><div class="tcm-trend-legend"><span><span class="tcm-legend-p"></span>输入</span><span><span class="tcm-legend-c"></span>输出</span></div></div></div>
+        ${Array.from({ length: MAX_HISTORY }, () => `<div class="tcm-trend-bar"><div class="tcm-trend-stack"><div class="tcm-trend-hit"></div><div class="tcm-trend-miss"></div><div class="tcm-trend-out"></div></div></div>`).join('')}
+      </div><div class="tcm-trend-legend"><span><span class="tcm-legend-hit"></span>命中缓存</span><span><span class="tcm-legend-miss"></span>未命中缓存</span><span><span class="tcm-legend-out"></span>输出</span></div></div></div>
   </div>
 </div>`;
 
